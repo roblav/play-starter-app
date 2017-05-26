@@ -1,9 +1,24 @@
-@(form: Form[Widget])(implicit messages: Messages)
+@(widgets: Seq[Widget], form: Form[Widget])(implicit request: RequestHeader, m: Messages)
 
 @main("Welcome to Play") {
   <h1>List Widgets</h1>
 
+  <table>
+    <thead>
+    <tr><th>Name</th><th>Price</th>
+    </thead>
+    <tbody>
+    @for(w <- widgets) {
+      <tr><td>@w.name</td><td>@w.price</td></tr>
+    }
+    </tbody>
+  </table>
+
+<hr/>
+
+
   @helper.form(action = routes.Application.createWidget()) {
+    @helper.CSRF.formField
     @helper.inputText(form("name"))
     @helper.inputText(form("price"))
     <button type="submit">Create widget</button>
